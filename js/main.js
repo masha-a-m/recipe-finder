@@ -109,16 +109,62 @@ function displayRecipes(recipes) {
 
 // load random recipe on page load
 async function loadPopularRecipes() {
+  const API_KEY = "97fe6f97cfe646259683f8961b36bf43";
   const url = `https://api.spoonacular.com/recipes/random?number=3&apiKey=${API_KEY}`;
   try {
     const response = await fetch(url);
+    // Check if response is OK
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
     const data = await response.json();
-    displayRecipes(data.recipes);
+    // Fallback in case data.recipes is undefined
+    if (data && Array.isArray(data.recipes)) {
+      displayRecipes(data.recipes);
+    } else {
+      console.warn("No recipes found in API response", data);
+      document.getElementById("results").innerHTML = "<p>No popular recipes found.</p>";
+    } 
   } catch (error) {
     console.error("Error loading popular recipes:", error);
-    document.getElementById("results").innerHTML = "<p>Error loading popular recipes</p>";
+    document.getElementById("results").innerHTML = 
+    `<p class="text-center text-red-500">Error loading popular recipes</p>`;
+    displayRecipes(mockPopularRecipes);
+
   }
 }
+
+
+
+// show mock recipes
+const mockPopularRecipes = [
+  {
+    id: 1,
+    title: "Vegetarian Stir Fry",
+    image: "https://source.unsplash.com/featured/?vegetables,stirfry&1",
+    ingredients: ["Broccoli", "Bell Pepper", "Tofu", "Soy Sauce"],
+    readyInMinutes: 25,
+  },
+  {
+    id: 2,
+    title: "Gluten-Free Banana Bread",
+    image: "https://source.unsplash.com/featured/?banana,bread&1",
+    ingredients: ["Bananas", "Almond Flour", "Eggs", "Honey"],
+    readyInMinutes: 50,
+  },
+  {
+    id: 3,
+    title: "Vegan Chickpea Curry",
+    image: "https://source.unsplash.com/featured/?chickpeas,curry&1",
+    ingredients: ["Chickpeas", "Coconut Milk", "Onion", "Spices"],
+    readyInMinutes: 40,
+  }
+];
+
+// In your catch block:
+document.getElementById("results").innerHTML = "<p>Loading failed. Showing popular recipes offline:</p>";
+displayRecipes(mockPopularRecipes);
+
 
 //  show only 6 cards
 let currentSearchResults = [];
