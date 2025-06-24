@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipe Finder</title>
+    <script src="js/main.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-k6RqeWeci5ZR/Lv4MR0sA0FfDOMz5e1z5l5b5l5b5l5b5l5b5l5b5l5b5b5b5b5b5b5b5b5b5b5b5b5b5b" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style type="text/tailwindcss">
+        @theme {
+              --color-clifford: #da373d;
+            }
+          </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+    <!-- Navbar -->
+    <header class="bg-white shadow p-8 flex justify-around items-center">
+        <h1 class="text-2xl font-bold">🍴 Recipe Finder</h1>
+        <nav class="space-x-4">
+            <a href="login.html" id="auth-link" class="text-blue-600 hover:underline">Login</a>
+            <a href="favorites.html" id="favorites-link" class="hidden text-blue-600 hover:underline">Favorites</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-blue-500 to-teal-400 text-white py-16">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-4">Find Your Perfect Recipe</h2>
+            <p class="text-lg mb-6">Search by ingredient, name, or dietary preference.</p>
+            <a href="#search-section"
+                class="inline-block bg-white text-blue-600 px-6 py-3 rounded font-semibold hover:bg-gray-100 transition">
+                Get Started
+            </a>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <main class="max-w-6xl mx-auto px-4 -mt-10 relative z-10">
+        <section id="search-section" class="bg-white shadow rounded-lg p-6 mb-10">
+            <h2 class="text-xl font-semibold mb-4">Search Recipes</h2>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <input type="text" id="search-input" placeholder="Search by ingredient or recipe name..."
+                    class="px-4 py-2 border rounded w-full sm:w-3/4" />
+                <button id="search-btn" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    Search
+                </button>
+            </div>
+
+            <!-- Filters -->
+            <div class="mt-6">
+                <h3 class="text-lg font-medium mb-2">Dietary Preferences</h3>
+                <div class="flex flex-wrap gap-2">
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" class="form-checkbox" value="vegetarian">
+                        <span class="ml-1">Vegetarian</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" class="form-checkbox" value="glutenFree">
+                        <span class="ml-1">Gluten-Free</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" class="form-checkbox" value="vegan">
+                        <span class="ml-1">Vegan</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" class="form-checkbox" value="dairyFree">
+                        <span class="ml-1">Dairy-Free</span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Recipes -->
+        <section class="mb-10">
+            <h2 class="text-2xl font-semibold mb-4">Popular Recipes</h2>
+            <div id="results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamic cards will be injected here -->
+                <div class="bg-white rounded shadow overflow-hidden flex flex-col h-full">
+                    <img src="https://source.unsplash.com/featured/?meal&1" alt="Recipe Title" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                      <h3 class="font-bold text-lg">Vegetarian Stir Fry</h3>
+                      <p class="text-sm text-gray-600">Ready in 25 mins</p>
+                      <ul class="mt-2 list-disc pl-5 text-sm text-gray-700">
+                        <li>Broccoli</li>
+                        <li>Bell Pepper</li>
+                        <li>Tofu</li>
+                        <li>Soy Sauce</li>
+                      </ul>
+                      <div class="mt-4 flex justify-between items-center">
+                        <a href="details.html?id=1" class="text-blue-600 hover:underline">View Details</a>
+                        <button class="save-btn text-xs text-white bg-green-500 px-2 py-1 rounded hover:bg-green-600">Save</button>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="mb-10 mt-20">
+            <h2 class="text-2xl font-semibold mb-4">Cook your favorite today</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded shadow text-center">
+                    <div class="text-3xl mb-4 text-blue-500">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Search</h3>
+                    <p>Enter ingredients or recipe names to find what you're craving.</p>
+                </div>
+                <div class="bg-white p-6 rounded shadow text-center">
+                    <div class="text-3xl mb-2">
+                        <i class="fas fa-filter"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Filter</h3>
+                    <p>Select dietary preferences like vegetarian or gluten-free.</p>
+                </div>
+                <div class="bg-white p-6 rounded shadow text-center">
+                    <div class="text-3xl mb-2">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Save</h3>
+                    <p>Log in to save your favorite recipes for later!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why choose us -->
+        <section class="mb-16 mt-20 bg-gradient-to-r from-blue-50 to-teal-50 p-8 rounded-lg">
+            <h2 class="text-3xl font-bold text-center mb-8">Why Choose Recipe Finder?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-4 rounded shadow text-center">
+                    <div class="text-3xl mb-2">💡</div>
+                    <h3 class="font-semibold mb-2">Smart Search</h3>
+                    <p>Find recipes based on what's in your fridge or pantry.</p>
+                </div>
+                <div class="bg-white p-4 rounded shadow text-center">
+                    <div class="text-3xl mb-2">🌱</div>
+                    <h3 class="font-semibold mb-2">Diet-Friendly</h3>
+                    <p>Vegetarian, vegan, gluten-free, and more dietary options available.</p>
+                </div>
+                <div class="bg-white p-4 rounded shadow text-center">
+                    <div class="text-3xl mb-2">⏱️</div>
+                    <h3 class="font-semibold mb-2">Quick Meals</h3>
+                    <p>Filter by prep time to find fast and easy recipes in minutes.</p>
+                </div>
+                <div class="bg-white p-4 rounded shadow text-center">
+                    <div class="text-3xl mb-2">❤️</div>
+                    <h3 class="font-semibold mb-2">Save Favorites</h3>
+                    <p>Keep track of your go-to meals and share them with friends.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials (Optional) -->
+        <section class="mb-10 mt-20">
+            <h2 class="text-3xl font-bold text-center mb-10">What Our Users Say</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded shadow">
+                    <p class="italic">“This app changed how I cook — easy and fun!”</p>
+                    <p class="mt-2 font-semibold">– Sarah M.</p>
+                </div>
+                <div class="bg-white p-6 rounded shadow">
+                    <p class="italic">“Finally found gluten-free meals that taste amazing.”</p>
+                    <p class="mt-2 font-semibold">– James L.</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- FAQs -->
+        <section class="mb-16 mt-20">
+            <h2 class="text-3xl font-bold text-center mb-8">Frequently Asked Questions</h2>
+            <div class="space-y-4 max-w-3xl mx-auto">
+                <details class="group bg-white p-4 rounded shadow cursor-pointer">
+                    <summary class="text-lg font-semibold list-none flex justify-between items-center">
+                        Is the app free?
+                        <span class="transition-transform duration-300 group-open:rotate-45">➕</span>
+                    </summary>
+                    <p class="mt-2 text-gray-600">Yes! You can search and view recipes for free. Save favorites when you log in.
+                    </p>
+                </details>
+                <details class="group bg-white p-4 rounded shadow cursor-pointer">
+                    <summary class="text-lg font-semibold list-none flex justify-between items-center">
+                        Can I filter by allergies?
+                        <span class="transition-transform duration-300 group-open:rotate-45">➕</span>
+                    </summary>
+                    <p class="mt-2 text-gray-600">Yes! We support filtering by common allergens like dairy-free and gluten-free.
+                    </p>
+                </details>
+                <details class="group bg-white p-4 rounded shadow cursor-pointer">
+                    <summary class="text-lg font-semibold list-none flex justify-between items-center">
+                        How do I save recipes?
+                        <span class="transition-transform duration-300 group-open:rotate-45">➕</span>
+                    </summary>
+                    <p class="mt-2 text-gray-600">Sign up or log in, then click the "Save" button under any recipe card.</p>
+                </details>
+            </div></section>
+
+        <!-- Newsletter (Optional) -->
+        <section class="mb-16 bg-blue-50 p-8 rounded-lg text-center">
+            <h2 class="text-2xl font-bold mb-4">Stay in the Loop</h2>
+            <p class="mb-6">Get weekly updates on new recipes, tips, and healthy eating ideas.</p>
+            <form class="flex flex-col sm:flex-row justify-center gap-2 max-w-md mx-auto">
+                <input type="email" placeholder="Your email address" class="px-4 py-2 border rounded flex-grow" required />
+                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
+                    Subscribe
+                </button>
+            </form></section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-12 bg-white shadow-inner p-4 text-center text-sm text-gray-500">
+        © 2025 Recipe Finder | Built with ❤️ using Tailwind CSS & Vanilla JS
+    </footer>
+</body>
+
+</html>
