@@ -119,3 +119,69 @@ async function loadPopularRecipes() {
     document.getElementById("results").innerHTML = "<p>Error loading popular recipes</p>";
   }
 }
+
+//  show only 6 cards
+let currentSearchResults = [];
+
+function displayRecipes(recipes) {
+  const resultsDiv = document.getElementById("results");
+  resultsDiv.innerHTML = "";
+
+  // Store all results globally
+  currentSearchResults = recipes;
+
+  // Display only 6 on homepage
+  const displayedRecipes = recipes.slice(0, 6);
+  const currentUser = localStorage.getItem("currentUser");
+
+  displayedRecipes.forEach(recipe => {
+    const card = document.createElement("div");
+    card.className = "bg-white rounded shadow overflow-hidden";
+    const ingredients = recipe.extendedIngredients?.map(i => i.original).slice(0, 4) || [];
+
+    card.innerHTML = `
+      <img src="${recipe.image}" alt="${recipe.title}" class="w-full h-48 object-cover">
+      <div class="p-4">
+        <h3 class="font-bold text-lg">${recipe.title}</h3>
+        <p class="text-sm text-gray-600">Ready in ${recipe.readyInMinutes} mins</p>
+        <ul class="mt-2 list-disc pl-5 text-sm text-gray-700">
+          ${ingredients.map(ing => `<li>${ing}</li>`).join("")}
+        </ul>
+        <div class="mt-4 flex justify-between items-center">
+          <a href="details.html?id=${recipe.id}" class="text-blue-600 hover:underline">View Details</a>
+          ${currentUser ? `<button class="save-btn text-xs text-white bg-green-500 px-2 py-1 rounded hover:bg-green-600">Save</button>` : ""}
+        </div>
+      </div>
+    `;
+
+    if (currentUser && card.querySelector(".save-btn")) {
+      card.querySelector(".save-btn").addEventListener("click", () => {
+        let users = JSON.parse(localStorage.getItem("users")) || {};
+        const recipeId = recipe.id;
+        if (!users[currentUser].favorites.includes(recipeId)) {
+          users[currentUser].favorites.push(recipeId);
+          alert("Saved!");
+        } else {
+          alert("Already saved.");
+        }
+        localStorage.setItem("users", JSON.stringify(users));
+      });
+    }
+
+    resultsDiv.appendChild(card);
+  });
+
+  // Show/Hide Show More button
+  const showMoreContainer = document.getElementById("show-more-container");
+  if (recipes.length > 6) {
+    showMoreContainer.classList.remove("hidden");
+  } else {
+    showMoreContainer.classList.add("hidden");
+  }
+}
+
+// Handle Show More click
+document.getElementById("show-more-btn").addEventListener("click", () => {
+  localStorage.setItem("searchResults", JSON.stringify(currentSearchResults));
+  window.location.href = "search-results.html";
+});
