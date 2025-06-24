@@ -19,21 +19,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   avatarInput.addEventListener("input", () => {
     const url = avatarInput.value.trim();
-    avatarPreview.src = url || "https://via.placeholder.com/80"; 
+    avatarPreview.src = url || "https://via.placeholder.com/80";    
   });
 
-  // Load dietary preferences
+  // Load dietary preferences (no instant save)
   const prefs = ["vegetarian", "vegan", "glutenFree", "dairyFree"];
   prefs.forEach(pref => {
     const checkbox = document.getElementById(pref);
     checkbox.checked = users[currentUser].preferences.includes(pref);
-
-    checkbox.addEventListener("change", () => {
-      const selected = prefs.filter(p => document.getElementById(p).checked);
-      users[currentUser].preferences = selected;
-      localStorage.setItem("users", JSON.stringify(users));
-      alert("Preferences saved!");
-    });
   });
 
   // Save Profile Button
@@ -57,11 +50,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
     users[emailInput].username = username;
     users[emailInput].avatar = avatar;
+
+    // Save selected preferences
     users[emailInput].preferences = prefs.filter(p => document.getElementById(p).checked);
 
     localStorage.setItem("users", JSON.stringify(users));
     alert("Settings saved!");
   });
+
+  // Save Preferences Button (Dietary Only)
+  const saveBtn = document.getElementById("save-preferences");
+  if (saveBtn) {
+    saveBtn.addEventListener("click", () => {
+      const selectedPreferences = prefs
+        .filter(pref => document.getElementById(pref).checked);
+
+      // Update user data
+      users[currentUser].preferences = selectedPreferences;
+      localStorage.setItem("users", JSON.stringify(users));
+
+      // Optional: Show feedback
+      saveBtn.textContent = "Saved!";
+      saveBtn.classList.replace("bg-blue-600", "bg-green-500");
+
+      setTimeout(() => {
+        saveBtn.textContent = "Save Preferences";
+        saveBtn.classList.replace("bg-green-500", "bg-blue-600");
+      }, 2000);
+
+      alert("Preferences saved!");
+    });
+  }
 
   // Logout Button
   document.getElementById("logout-btn").addEventListener("click", () => {
@@ -88,22 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("darkMode", "disabled");
     }
   });
-
-  // Save Preferences Button Feedback
-  const saveBtn = document.getElementById("save-preferences");
-  if (saveBtn) {
-    saveBtn.addEventListener("click", () => {
-      saveBtn.textContent = "Saved!";
-      saveBtn.disabled = true;
-      saveBtn.classList.replace("bg-blue-600", "bg-green-500");
-
-      setTimeout(() => {
-        saveBtn.textContent = "Save Preferences";
-        saveBtn.disabled = false;
-        saveBtn.classList.replace("bg-green-500", "bg-blue-600");
-      }, 2000);
-    });
-  }
 
   // Load favorite recipes into cards
   const favorites = users[currentUser].favorites || [];
