@@ -54,57 +54,7 @@ async function fetchRecipes(query = "chicken", diet = "") {
 }
 
 
-// display recipe cards
-function displayRecipes(recipes) {
-  const resultsDiv = document.getElementById("results");
-  resultsDiv.innerHTML = "";
-  const currentUser = localStorage.getItem("currentUser");
 
-  if (!recipes.length) {
-    resultsDiv.innerHTML = "<p>No recipes found.</p>";
-    return;
-  }
-
-  recipes.forEach(recipe => {
-    const card = document.createElement("div");
-    card.className = "bg-white rounded shadow overflow-hidden flex flex-col h-full";
-    const ingredients = recipe.extendedIngredients?.map(i => i.originalName || i.name).slice(0, 4) || [];
-
-    card.innerHTML = `
-      <img src="${recipe.image}" alt="${recipe.title}" class="w-full h-48 object-cover">
-      <div class="p-4 flex-grow">
-        <h3 class="font-bold text-lg">${recipe.title}</h3>
-        <p class="text-sm text-gray-600">Ready in ${recipe.readyInMinutes} mins</p>
-        <ul class="mt-2 list-disc pl-5 text-sm text-gray-700">
-          ${ingredients.map(ing => `<li>${ing}</li>`).join("")}
-        </ul>
-        <div class="mt-4 flex justify-between items-center pt-2 mt-auto">
-          <a href="details.html?id=${recipe.id}" class="text-blue-600 hover:underline">View Details</a>
-          ${currentUser ? `<button class="save-btn text-xs text-white bg-green-500 px-2 py-1 rounded hover:bg-green-600">Save</button>` : ""}
-        </div>
-      </div>
-    `;
-
-    // Save functionality
-    if (currentUser && card.querySelector(".save-btn")) {
-      card.querySelector(".save-btn").addEventListener("click", () => {
-        let users = JSON.parse(localStorage.getItem("users")) || {};
-        const recipeId = recipe.id;
-
-        if (!users[currentUser].favorites.includes(recipeId)) {
-          users[currentUser].favorites.push(recipeId);
-          alert("Saved!");
-        } else {
-          alert("Already saved.");
-        }
-
-        localStorage.setItem("users", JSON.stringify(users));
-      });
-    }
-
-    resultsDiv.appendChild(card);
-  });
-}
 
 
 // load random recipe on page load
@@ -136,49 +86,23 @@ async function loadPopularRecipes() {
 
 
 
-// show mock recipes
-const mockPopularRecipes = [
-  {
-    id: 1,
-    title: "Vegetarian Stir Fry",
-    image: "https://source.unsplash.com/featured/?vegetables,stirfry&1",
-    ingredients: ["Broccoli", "Bell Pepper", "Tofu", "Soy Sauce"],
-    readyInMinutes: 25,
-  },
-  {
-    id: 2,
-    title: "Gluten-Free Banana Bread",
-    image: "https://source.unsplash.com/featured/?banana,bread&1",
-    ingredients: ["Bananas", "Almond Flour", "Eggs", "Honey"],
-    readyInMinutes: 50,
-  },
-  {
-    id: 3,
-    title: "Vegan Chickpea Curry",
-    image: "https://source.unsplash.com/featured/?chickpeas,curry&1",
-    ingredients: ["Chickpeas", "Coconut Milk", "Onion", "Spices"],
-    readyInMinutes: 40,
-  }
-];
-
-// In your catch block:
-document.getElementById("results").innerHTML = "<p>Loading failed. Showing popular recipes offline:</p>";
-displayRecipes(mockPopularRecipes);
-
-
-//  show only 6 cards
 let currentSearchResults = [];
 
 function displayRecipes(recipes) {
   const resultsDiv = document.getElementById("results");
   resultsDiv.innerHTML = "";
+  const currentUser = localStorage.getItem("currentUser");
 
-  // Store all results globally
+  if (!recipes || recipes.length === 0) {
+    resultsDiv.innerHTML = "<p>No recipes found.</p>";
+    return;
+  }
+
+  // Store all search results globally for Show More
   currentSearchResults = recipes;
 
-  // Display only 6 on homepage
+  // Display only first 6 on homepage
   const displayedRecipes = recipes.slice(0, 6);
-  const currentUser = localStorage.getItem("currentUser");
 
   displayedRecipes.forEach(recipe => {
     const card = document.createElement("div");
@@ -204,12 +128,15 @@ function displayRecipes(recipes) {
       card.querySelector(".save-btn").addEventListener("click", () => {
         let users = JSON.parse(localStorage.getItem("users")) || {};
         const recipeId = recipe.id;
+        if (!users[currentUser]) return;
+
         if (!users[currentUser].favorites.includes(recipeId)) {
           users[currentUser].favorites.push(recipeId);
           alert("Saved!");
         } else {
           alert("Already saved.");
         }
+
         localStorage.setItem("users", JSON.stringify(users));
       });
     }
@@ -217,7 +144,7 @@ function displayRecipes(recipes) {
     resultsDiv.appendChild(card);
   });
 
-  // Show/Hide Show More button
+  // Show/Hide Show More Button
   const showMoreContainer = document.getElementById("show-more-container");
   if (recipes.length > 6) {
     showMoreContainer.classList.remove("hidden");
@@ -226,8 +153,45 @@ function displayRecipes(recipes) {
   }
 }
 
-// Handle Show More click
-document.getElementById("show-more-btn").addEventListener("click", () => {
+
+// show mock recipes
+const mockPopularRecipes = [
+  {
+    id: 1,
+    title: "Vegetarian Stir Fry",
+    image: "https://media.istockphoto.com/id/600073988/photo/vegetable-stir-fry.webp?a=1&b=1&s=612x612&w=0&k=20&c=xenuWRkahvIbJIzGHUwh-TAl4Rx8Q5-bAcBO08SxkoQ=",
+    ingredients: ["Broccoli", "Bell Pepper", "Tofu", "Soy Sauce"],
+    readyInMinutes: 25,
+  },
+  {
+    id: 2,
+    title: "Gluten-Free Banana Bread",
+    image: "https://images.unsplash.com/photo-1592029780368-c1fff15bcfd5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Z2x1dGVuJTIwZnJlZSUyMGJhbm5hJTIwYnJlYWR8ZW58MHx8MHx8fDA%3D",
+    ingredients: ["Bananas", "Almond Flour", "Eggs", "Honey"],
+    readyInMinutes: 50,
+  },
+  {
+    id: 3,
+    title: "Vegan Chickpea Curry",
+    image: "https://plus.unsplash.com/premium_photo-1726769145769-7ff764c537c6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8dmVnYW4lMjBjaGlja2VucGVhJTIwY3Vycnl8ZW58MHx8MHx8fDA%3D",
+    ingredients: ["Chickpeas", "Coconut Milk", "Onion", "Spices"],
+    readyInMinutes: 40,
+  }
+];
+
+// In your catch block:
+document.getElementById("results").innerHTML = "<p>Loading failed. Showing popular recipes offline:</p>";
+displayRecipes(mockPopularRecipes);
+
+
+
+
+ // Handle Show More click
+ document.getElementById("show-more-btn").addEventListener("click", () => {
   localStorage.setItem("searchResults", JSON.stringify(currentSearchResults));
   window.location.href = "search-results.html";
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadPopularRecipes();
 });
