@@ -1,4 +1,4 @@
-const API_KEY = "97fe6f97cfe646259683f8961b36bf43";
+const API_KEY = "2c8ddad6f0a64c0895691828727758d8";
 
 async function fetchRecipes(query = "chicken", diet = "") {
   const url = new URL("https://api.spoonacular.com/recipes/complexSearch"); 

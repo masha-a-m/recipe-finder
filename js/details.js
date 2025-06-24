@@ -46,7 +46,7 @@
 
   // Fetch recipe data
   async function loadRecipeDetails(id) {
-      const API_KEY = "97fe6f97cfe646259683f8961b36bf43";
+      const API_KEY = "2c8ddad6f0a64c0895691828727758d8";
       const url = `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=false&apiKey=${API_KEY}`;
 
       try {

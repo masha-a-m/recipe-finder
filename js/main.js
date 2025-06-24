@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 // search functionality
-const API_KEY = "97fe6f97cfe646259683f8961b36bf43";
+const API_KEY = "2c8ddad6f0a64c0895691828727758d8";
 
 async function fetchRecipes(query = "chicken", diet = "") {
   const url = new URL("https://api.spoonacular.com/recipes/complexSearch"); 
@@ -59,7 +59,7 @@ async function fetchRecipes(query = "chicken", diet = "") {
 
 // load random recipe on page load
 async function loadPopularRecipes() {
-  const API_KEY = "97fe6f97cfe646259683f8961b36bf43";
+  const API_KEY = "2c8ddad6f0a64c0895691828727758d8";
   const url = `https://api.spoonacular.com/recipes/random?number=3&apiKey=${API_KEY}`;
   try {
     const response = await fetch(url);
