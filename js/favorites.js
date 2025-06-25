@@ -13,6 +13,19 @@ const currentUser = localStorage.getItem("currentUser");
     const favoritesList = document.getElementById("favorites-list");
     const noFavorites = document.getElementById("no-favorites");
 
+    if (!currentUser || !users[currentUser]) {
+      noFavorites.classList.remove("hidden");
+      noFavorites.textContent = "Please log in to view your favorites.";
+    } else {
+      const favoriteIds = users[currentUser].favorites || [];
+
+      if (favoriteIds.length === 0) {
+        noFavorites.classList.remove("hidden");
+      } else {
+        const API_KEY = "2c8ddad6f0a64c0895691828727758d8";
+      }
+    }
+
     const API_KEY = "2c8ddad6f0a64c0895691828727758d8";
 
     async function loadFavoriteRecipes() {
@@ -55,3 +68,22 @@ const currentUser = localStorage.getItem("currentUser");
     }
 
     loadFavoriteRecipes();
+
+
+    const darkToggle = document.getElementById("dark-mode-toggle");
+    const html = document.documentElement;
+  
+    if (localStorage.getItem("darkMode") === "enabled") {
+      html.classList.add("dark");
+      darkToggle.checked = true;
+    }
+  
+    darkToggle.addEventListener("change", () => {
+      if (darkToggle.checked) {
+        html.classList.add("dark");
+        localStorage.setItem("darkMode", "enabled");
+      } else {
+        html.classList.remove("dark");
+        localStorage.setItem("darkMode", "disabled");
+      }
+    });

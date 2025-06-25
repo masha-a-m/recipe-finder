@@ -8,8 +8,27 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-k6RqeWeci5ZR/Lv4MR0sA0FfDOMz5e1z5l5b5l5b5l5b5l5b5l5b5l5b5b5b5b5b5b5b5b5b5b5b5b5b5b" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .dark {
+            background-color: #1f2937;
+            color: #f3f4f6;
+        }
+    
+        .dark .bg-white {
+            background-color: #374151;
+        }
+    
+        .dark .text-gray-900 {
+            color: #f3f4f6;
+        }
+    
+        .dark .bg-gray-100 {
+            background-color: #1f2937;
+        }
+    
+        </style>
 </head>
-<body class="bg-gray-100 text-gray-900">
+<body class="bg-gray-100 text-gray-900 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
 
     <!-- Navbar -->
     <header class="bg-white shadow p-8 pl-40 pr-40 flex justify-between items-center">
@@ -94,7 +113,7 @@
 
             <!-- Show More Button -->
             <div id="show-more-container" class="mt-6 text-center hidden">
-                <button id="show-more-btn" class="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+                <button id="show-more-btn" class="px-6 py-2 bg-blue-600 text-white rounded cursor-pointer hover:bg-blue-700 transition">
                     Show More
                 </button>
             </div>
@@ -206,7 +225,7 @@
             <p class="mb-6">Get weekly updates on new recipes, tips, and healthy eating ideas.</p>
             <form class="flex flex-col sm:flex-row justify-center gap-2 max-w-md mx-auto">
                 <input type="email" placeholder="Your email address" class="px-4 py-2 border rounded flex-grow" required />
-                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
+                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded cursor-pointer hover:bg-blue-700 transition">
                     Subscribe
                 </button>
             </form></section>
@@ -216,6 +235,17 @@
     <footer class="mt-12 bg-white shadow-inner p-4 text-center text-sm text-gray-500">
         © 2025 Recipe Finder | Built with ❤️ using Tailwind CSS & Vanilla JS
     </footer>
+
+    <!-- Dark Mode Toggle -->
+    <div class="p-4 text-right">
+        <label class="inline-flex items-center cursor-pointer">
+            <span class="mr-2">🌙</span>
+            <input type="checkbox" id="dark-mode-toggle" class="sr-only">
+            <div class="toggle-bg w-10 h-5 bg-gray-400 rounded-full relative">
+                <div class="dot absolute w-4 h-4 bg-white rounded-full top-0.5 left-0.5"></div>
+            </div>
+        </label>
+        </div>
 </body>
 
 </html>

@@ -81,3 +81,22 @@
   } else {
       loadRecipeDetails(recipeId);
   }
+
+
+  const darkToggle = document.getElementById("dark-mode-toggle");
+  const html = document.documentElement;
+
+  if (localStorage.getItem("darkMode") === "enabled") {
+    html.classList.add("dark");
+    darkToggle.checked = true;
+  }
+
+  darkToggle.addEventListener("change", () => {
+    if (darkToggle.checked) {
+      html.classList.add("dark");
+      localStorage.setItem("darkMode", "enabled");
+    } else {
+      html.classList.remove("dark");
+      localStorage.setItem("darkMode", "disabled");
+    }
+  });

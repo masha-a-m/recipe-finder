@@ -189,9 +189,28 @@ displayRecipes(mockPopularRecipes);
  // Handle Show More click
  document.getElementById("show-more-btn").addEventListener("click", () => {
   localStorage.setItem("searchResults", JSON.stringify(currentSearchResults));
-  window.location.href = "search-results.html";
+  window.location.href = "displayRecipies.html";
 });
 
 document.addEventListener("DOMContentLoaded", () => {
   loadPopularRecipes();
+});
+
+
+const darkToggle = document.getElementById("dark-mode-toggle");
+const html = document.documentElement;
+
+if (localStorage.getItem("darkMode") === "enabled") {
+  html.classList.add("dark");
+  darkToggle.checked = true;
+}
+
+darkToggle.addEventListener("change", () => {
+  if (darkToggle.checked) {
+    html.classList.add("dark");
+    localStorage.setItem("darkMode", "enabled");
+  } else {
+    html.classList.remove("dark");
+    localStorage.setItem("darkMode", "disabled");
+  }
 });
